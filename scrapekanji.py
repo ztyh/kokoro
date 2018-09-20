@@ -34,7 +34,7 @@ for i in kanji:
 
 M=Count+Count.T
 
-cut=2
+cut=3
 relations=[]
 for i in range(n+1):
     for j in range(i+1,n+1):
@@ -48,9 +48,9 @@ model.train(epochs=epcs)
 
 figure(figsize=(80, 60))
 font_path = "kaiu.ttf"
-mpl.rcParams["font.size"] = 64
+mpl.rcParams["font.size"] = 4
 prop = mfm.FontProperties(fname=font_path)
 for i in list(model.kv.vocab.keys()):
-    plt.scatter(model.kv.word_vec(i)[0],model.kv.word_vec(i)[1])
+    plt.scatter(model.kv.word_vec(i)[0],model.kv.word_vec(i)[1],s=0.1)
     plt.annotate(i,xy=(model.kv.word_vec(i)[0],model.kv.word_vec(i)[1]),fontproperties=prop)
-plt.savefig(str(epcs)+'-'+str(negs)+'-'+str(cut)+'.png')   # save the figure to file    # close the figure
+plt.savefig(str(epcs)+'-'+str(negs)+'-'+str(cut)+'-'+str(r)+'.svg')
