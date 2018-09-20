@@ -34,14 +34,15 @@ for i in kanji:
 
 M=Count+Count.T
 
+cut=2
 relations=[]
 for i in range(n+1):
     for j in range(i+1,n+1):
-        if M[i,j]>0:
+        if M[i,j]>cut:
             relations.append((kanji[i],kanji[j]))
 
-negs=1
-epcs=1
+negs=10
+epcs=50
 model = PoincareModel(relations, negative=negs,size=2)
 model.train(epochs=epcs)
 
@@ -52,4 +53,4 @@ prop = mfm.FontProperties(fname=font_path)
 for i in list(model.kv.vocab.keys()):
     plt.scatter(model.kv.word_vec(i)[0],model.kv.word_vec(i)[1])
     plt.annotate(i,xy=(model.kv.word_vec(i)[0],model.kv.word_vec(i)[1]),fontproperties=prop)
-plt.savefig(str(epcs)+'-'+str(negs)+'.png')   # save the figure to file    # close the figure
+plt.savefig(str(epcs)+'-'+str(negs)+'-'+str(cut)+'.png')   # save the figure to file    # close the figure
