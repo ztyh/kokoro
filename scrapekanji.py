@@ -2,6 +2,9 @@ import numpy as np
 import codecs
 import matplotlib.pyplot as plt
 from gensim.models.poincare import PoincareModel
+import matplotlib.font_manager as mfm
+from matplotlib.pyplot import figure
+import matplotlib as mpl
 
 file=open('kanji.txt','r')
 kanji=file.read().split('\n')
@@ -37,11 +40,16 @@ for i in range(n+1):
         if M[i,j]>0:
             relations.append((kanji[i],kanji[j]))
 
+negs=1
+epcs=1
+model = PoincareModel(relations, negative=negs,size=2)
+model.train(epochs=epcs)
 
-model = PoincareModel(relations, negative=1,size=2)
-model.train(epochs=1)
-
-plt.rcParams['font.family'] = 'IPAexGothic'
+figure(figsize=(80, 60))
+font_path = "kaiu.ttf"
+mpl.rcParams["font.size"] = 64
+prop = mfm.FontProperties(fname=font_path)
 for i in list(model.kv.vocab.keys()):
     plt.scatter(model.kv.word_vec(i)[0],model.kv.word_vec(i)[1])
-    plt.annotate(i,xy=(model.kv.word_vec(i)[0],model.kv.word_vec(i)[1]))
+    plt.annotate(i,xy=(model.kv.word_vec(i)[0],model.kv.word_vec(i)[1]),fontproperties=prop)
+plt.savefig(str(epcs)+'-'+str(negs)+'.png')   # save the figure to file    # close the figure
