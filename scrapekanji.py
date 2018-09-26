@@ -6,9 +6,8 @@ import matplotlib.font_manager as mfm
 from matplotlib.pyplot import figure
 import matplotlib as mpl
 
-file=open('kanji.txt','r')
-kanji=file.read().split('\n')
-file.close()
+with codecs.open('kanji.txt','r',encoding='utf-8') as file:
+    kanji=file.read().split('\n')
 
 with codecs.open('kokoro.txt', "r",encoding='ShiftJIS', errors='ignore') as file:
     kokoro=file.read().split('\n')
@@ -32,12 +31,17 @@ for i in kanji:
     print(i)
     ni+=1
 
-M=Count+Count.T
-
+rowsums=np.sum(Count,axis=1)
+#np.sum(np.asarray([[1,1],[0,0]]),axis=1)
+#np.asarray([[1,1],[0,0]])/np.expand_dims(np.asarray([1,2]),1)
+Count2=Count[rowsums>0,rowsums>0]
+Count3=Count2/np.expand_dims(rowsums[rowsums>0],1)
+M=Count3+Count3.T
+n=M.shape[0]
 cut=3
 relations=[]
-for i in range(n+1):
-    for j in range(i+1,n+1):
+for i in range(n):
+    for j in range(i+1,n):
         if M[i,j]>cut:
             relations.append((kanji[i],kanji[j]))
 
