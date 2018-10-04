@@ -58,4 +58,3 @@ for i in list(model.kv.vocab.keys()):
     plt.scatter(model.kv.word_vec(i)[0],model.kv.word_vec(i)[1],s=0.1)
     plt.annotate(i,xy=(model.kv.word_vec(i)[0],model.kv.word_vec(i)[1]),fontproperties=prop)
 plt.savefig(str(epcs)+'-'+str(negs)+'-'+str(cut)+'-'+str(r)+'.svg')
-1+1
